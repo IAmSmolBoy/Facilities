@@ -1,0 +1,103 @@
+$red: #EC4E6E;
+$darkblue: #35415E;
+$lightblue: #ADB9D8;
+
+.navbar {
+    background: $darkblue;
+
+    .navList {
+        list-style: none;
+        display: flex;
+
+        .navItem {
+            padding: 1vh 1.5vw;
+            display: flex;
+
+            a {
+                text-decoration: none;
+                color: $lightblue;
+                margin: auto;
+            }
+
+            .logo {
+                color: $red;
+                margin: auto 0;
+            }
+
+            .navLinks {
+                transition: all 0.5s ease-in-out;
+                position: relative;
+
+                &:not(.active)::before {
+                    content: attr(data-item);
+                    transition: all 0.5s ease-in-out;
+                    color: white;
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    width: 0;
+                    overflow: hidden;
+                }
+
+                &:not(.active):hover {
+                    &::before {
+                        width: 100%;
+                    }
+                }
+            }
+
+            .active {
+                color: $red;
+
+                &.bookNow {
+                    color: $lightblue;
+                }
+            }
+
+            &:has(.bookNow) {
+                background: $red;
+                margin-left: auto;
+            }
+
+            .user {
+                display: flex;
+                margin: auto 0;
+
+                .detailsPreview {
+                    display: flex;
+                    flex-direction: column;
+
+                    * {
+                        margin-left: auto;
+                    }
+
+                    .username {
+                        margin-top: auto;
+                        color: white;
+                    }
+
+                    .role {
+                        margin-bottom: auto;
+                    }
+                }
+
+                .pfp {
+                    height: 5vh;
+                    width: 5vh;
+                    border-radius: 5vh;
+                    overflow: hidden;
+                    margin-left: 1vw;
+
+                    .pfpImg {
+                        height: 5vh;
+                        position: relative;
+                        transform: translateX(-50%);
+                        left: 50%;
+                    }
+                }
+            }
+        }
+    }
+}
