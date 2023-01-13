@@ -2,53 +2,44 @@ $red: #EC4E6E;
 $lightblue: #ADB9D8;
 $darkblue: #35415E;
 
-.title {
-    color: $red;
-    font-size: 3em;
-}
-
-.subheading {
-    color: $lightblue;
-    font-size: 2.5em;
-    margin-top: 1vh;
-}
-
-table {
-    margin-top: 1vh;
+.tableSec {
     width: 50vw;
-    border-collapse: separate;
-    border-spacing: 0 2vh;
 
-    th {
-        color: $lightblue;
-        text-align: left;
-        padding-left: 1vw;
-    }
-
-    tbody {
-        background: $darkblue;
-
-        td {
-            color: white;
-            padding: 1vh 1vw;
+    table {
+        margin-top: 1vh  !important;
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 2vh;
+    
+        th {
+            color: $lightblue;
+            text-align: left;
+            padding-left: 1vw !important;
+        }
+    
+        tbody {
+            background: $darkblue;
+    
+            td {
+                color: white;
+                padding: 1vh 1vw !important;
+            }
         }
     }
 }
 
 .popularSec {
-    margin-left: 1vw;
-    display: flex;
-    flex-direction: column;
+    width: 39vw;
 
     .popularList {
         list-style: none;
-        margin-top: 1.5vh;
+        margin-top: 1.5vh  !important;
 
         .popularItem {
             display: flex;
-            
+
             &:not(:last-child) {
-                margin-bottom: 2.5vh;
+                margin-bottom: 2.5vh  !important;
             }
 
             .roomImg {
@@ -56,12 +47,13 @@ table {
             }
 
             .popularRoomInfo {
-                margin-left: 1vw;
+                margin-left: 1vw  !important;
                 color: white;
 
                 h4 {
                     font-size: 1.75em;
                 }
+
                 p {
                     font-size: 1em;
                 }

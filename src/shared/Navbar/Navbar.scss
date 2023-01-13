@@ -8,29 +8,30 @@ $lightblue: #ADB9D8;
     .navList {
         list-style: none;
         display: flex;
+        width: 100vw;
 
         .navItem {
-            padding: 1vh 1.5vw;
+            padding: 1vh 1.5vw !important;
             display: flex;
 
             a {
                 text-decoration: none;
                 color: $lightblue;
-                margin: auto;
+                margin: auto !important;
             }
 
             .logo {
                 color: $red;
-                margin: auto 0;
+                margin: auto 0 !important;
             }
 
             .navLinks {
-                transition: all 0.5s ease-in-out;
+                transition: all 0.2s ease-in-out;
                 position: relative;
 
                 &:not(.active)::before {
                     content: attr(data-item);
-                    transition: all 0.5s ease-in-out;
+                    transition: all 0.2s ease-in-out;
                     color: white;
                     position: absolute;
                     top: 0;
@@ -51,35 +52,50 @@ $lightblue: #ADB9D8;
             .active {
                 color: $red;
 
-                &.bookNow {
+                &.button {
                     color: $lightblue;
                 }
             }
 
-            &:has(.bookNow) {
+            &:has(.button) {
                 background: $red;
-                margin-left: auto;
+                cursor: pointer;
+
+                button {
+                    background: none;
+                    border: none;
+                    color: white;
+
+                    &:focus {
+                        outline: none;
+                    }
+                }
+            }
+
+            &.left-auto {
+                margin-left: auto !important;
+                border-right: black solid 1px;
             }
 
             .user {
                 display: flex;
-                margin: auto 0;
+                margin: auto 0 !important;
 
                 .detailsPreview {
                     display: flex;
                     flex-direction: column;
 
                     * {
-                        margin-left: auto;
+                        margin-left: auto !important;
                     }
 
                     .username {
-                        margin-top: auto;
+                        margin-top: auto !important;
                         color: white;
                     }
 
                     .role {
-                        margin-bottom: auto;
+                        margin-bottom: auto !important;
                     }
                 }
 
@@ -88,7 +104,7 @@ $lightblue: #ADB9D8;
                     width: 5vh;
                     border-radius: 5vh;
                     overflow: hidden;
-                    margin-left: 1vw;
+                    margin-left: 1vw !important;
 
                     .pfpImg {
                         height: 5vh;
