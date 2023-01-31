@@ -2,7 +2,7 @@ $red: #EC4E6E;
 $lightblue: #ADB9D8;
 $darkblue: #35415E;
 
-main:has(div.profile-page) {
+main:has(div.addFacility) {
 
     * {
         margin: 0;
@@ -25,8 +25,7 @@ main:has(div.profile-page) {
         }
     }
 
-    div.profile-page {
-        position: relative;
+    div.addFacility {
         border: 2px solid $lightblue;
         padding: 40px 10px 0px 40px !important;
         width: 70%;
@@ -43,22 +42,6 @@ main:has(div.profile-page) {
         p.errMsg {
             color: $red;
             margin-bottom: 30px !important;
-        }
-
-        .delete-btn {
-            background: $red;
-            color: white;
-            border: 2px solid $red;
-            width: calc(50% - 30px);
-            height: 40px;
-            margin: 0 30px -20px 0 !important;
-            float: left;
-            font-weight: 800;
-            font-size: 0.7em;
-            letter-spacing: 1.8pt;
-            text-transform: uppercase;
-            cursor: pointer;
-            border-radius: 10px;
         }
     }
     
@@ -89,10 +72,14 @@ main:has(div.profile-page) {
         }
 
         img {
-            width: 20rem;
-            height: 20rem;
-            border-radius: 50%;
+            max-width: 44.5vw;
             object-fit: cover;
+        }
+
+        .fa-image {
+            color: white;
+            font-size: 20rem;
+            font-family: "Font Awesome 6 Free"
         }
     }
     
@@ -139,28 +126,6 @@ main:has(div.profile-page) {
     
         &:focus {
             outline: 0;
-        }
-    }
-
-    .password-div {
-        position: relative;
-
-        input {
-            margin: 0 !important;
-        }
-
-        button {
-            position: absolute;
-            right: 3rem;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            outline: none;
-            border: none;
-
-            img {
-                height: 1rem;
-            }
         }
     }
 }

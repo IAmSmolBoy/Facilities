@@ -2,17 +2,20 @@ $red: #EC4E6E;
 $lightblue: #ADB9D8;
 $darkblue: #35415E;
 
+
+h1.title {
+    color: $red;
+    font-size: 3em;
+}
+
 main {
     display: flex;
     margin: 5vh 5vw !important;
+    position: relative;
+    min-height: 83vh;
 
     section {
         width: 44.5vw;
-
-        .title {
-            color: $red;
-            font-size: 3em;
-        }
         
         .subheading {
             color: $lightblue;

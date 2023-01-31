@@ -61,7 +61,7 @@ $lightblue: #ADB9D8;
                 background: $red;
                 cursor: pointer;
 
-                button {
+                button, a.button {
                     background: none;
                     border: none;
                     color: white;
@@ -69,6 +69,10 @@ $lightblue: #ADB9D8;
                     &:focus {
                         outline: none;
                     }
+                }
+
+                &.rightBorder {
+                    border-right: black solid 1px;
                 }
             }
 
@@ -87,11 +91,11 @@ $lightblue: #ADB9D8;
 
                     * {
                         margin-left: auto !important;
+                        color: white;
                     }
 
                     .username {
                         margin-top: auto !important;
-                        color: white;
                     }
 
                     .role {
@@ -109,6 +113,7 @@ $lightblue: #ADB9D8;
                     .pfpImg {
                         height: 5vh;
                         position: relative;
+                        object-fit: cover;
                         transform: translateX(-50%);
                         left: 50%;
                     }

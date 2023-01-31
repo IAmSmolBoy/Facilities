@@ -1,95 +1,113 @@
 import "./Home.scss"
-import $ from "jquery"
-import { useJwt } from "react-jwt";
+
+import { decodeToken } from "react-jwt";
+import { useState } from "react";
 import axios from "axios"
+import { useEffect } from "react";
 
-export default function Home() {
+export default function Home({ setType, setBooking, bookingList, setBookingList }) {
 
-    const { reEvaluateToken } = useJwt()
+    const [ facilities, setFacilities ] = useState([])
+
+    useEffect(() => {
+        if (localStorage.getItem("userToken")) {
+            // Decode the jwt token if user is logged in
+            const user = decodeToken(localStorage.getItem("userToken"))
     
-    var role = JSON.stringify({ role: "unauthenticated" }), username = ""
-    if (localStorage.getItem("userToken")) {
-        role = localStorage.getItem("userToken")
-        username = "/" + reEvaluateToken(localStorage.getItem("userToken")).decodedToken
-    }
-    axios.get('https://9xkibhbgh8.execute-api.us-east-1.amazonaws.com/bookings' + username, {
-        headers: {
-            authtoken: role
+            axios.get(`${process.env.REACT_APP_URL}/bookings/${user.username}`, {
+                headers: { authtoken: localStorage.getItem("userToken") }
+            }).then((res) => {
+                setBookingList(res.data)
+            }, e => console.log(e.message))
+            
+            axios.get(`${process.env.REACT_APP_URL}/facilities`)
+                .then(res => {
+                    if (res.data && res.data.length > 0) {
+                        const favouritedFacilities = res.data
+                            .filter(facility => user.favourites.includes(facility.name))
+                            .map(favouritedFacility)
+                        setFacilities(favouritedFacilities)
+                    }
+                }).catch(err => {
+                    console.log(err)
+                })
         }
-    }).then((e) => {
-        console.log(e)
-    })
-    // const xhr = new XMLHttpRequest()
-    // xhr.open('GET',  + username, true)
-    // xhr.onload = () => console.log(xhr.responseText)
-    // xhr.setRequestHeader("authtoken", role)
-    // xhr.setRequestHeader("Accept", true)
-    // xhr.send()
+    }, [])
+
+    function editBooking(booking) {
+        setBooking(booking)
+        setType("BookNow")
+    }
+
+    function deleteBooking(deletedBooking) {
+        var tempBookings = bookingList
+        const bookingIndex = tempBookings.findIndex(booking => booking.facility === deletedBooking.facility)
+        tempBookings = tempBookings.splice(bookingIndex, 1)
+        setBookingList(tempBookings)
+
+        const facility = deletedBooking.facility.split(" ").join("+"),
+            booker = deletedBooking.booker.split(" ").join("+")
+            
+        axios.delete(`${process.env.REACT_APP_URL}/bookings/${facility}/${booker}`, {
+            headers: { authtoken: localStorage.getItem("userToken")  }
+        }).then(res => {
+            console.log(res.data)
+        }).catch(err => {
+            console.log(err)
+        })
+    }
+
+    // booking row template
+    const bookingRow = (booking) => (
+        <tr key={booking.facility}>
+            <td>{booking.facility}</td>
+            <td>{booking.owner}</td>
+            <td>{booking.startDate}</td>
+            <td>{booking.endDate}</td>
+            <td>
+                <button className="control-btn" onClick={(e) => editBooking(booking)}><i className="fa-solid fa-pen-to-square"></i></button>
+                <button className="control-btn" onClick={(e) => deleteBooking(booking)}><i className="fa-solid fa-trash"></i></button>
+            </td>
+        </tr>
+    )
+
+    // favourited facilities list item template
+    const favouritedFacility = (facility) => (
+        <li className="popularItem" key={facility.name}>
+            <img className="roomImg" src={facility.img} alt="Meeting Room" />
+            <div className="popularRoomInfo">
+                <h4>{facility.name}</h4>
+                <p>Owner: {facility.owner}</p>
+                <p>Location: {facility.location}</p>
+            </div>
+        </li>
+    )
 
     return (
         <>
             <section className="tableSec">
                 <h1 className="title">Dashboard</h1>
                 <h3 className="subheading">Current Bookings</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Facility Name</th>
-                            <th>Owner</th>
-                            <th>Start Time</th>
-                            <th>End Time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Meeting Room</td>
-                            <td>BenDover123</td>
-                            <td>{(new Date()).toLocaleString()}</td>
-                            <td>{(new Date()).toLocaleString()}</td>
-                        </tr>
-                        <tr>
-                            <td>Meeting Room</td>
-                            <td>BenDover123</td>
-                            <td>{(new Date()).toLocaleString()}</td>
-                            <td>{(new Date()).toLocaleString()}</td>
-                        </tr>
-                        <tr>
-                            <td>Meeting Room</td>
-                            <td>BenDover123</td>
-                            <td>{(new Date()).toLocaleString()}</td>
-                            <td>{(new Date()).toLocaleString()}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                {
+                    localStorage.getItem("userToken") ?
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Facility Name</th>
+                                <th>Owner</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>{ bookingList.map(bookingRow) }</tbody>
+                    </table> :
+                    <h4>Log in to see your bookings!</h4>
+                }
+                
             </section>
             <section className="popularSec">
                 <h3 className="subheading">Favourited Facilities</h3>
-                <ul className="popularList">
-                    <li className="popularItem">
-                        <img className="roomImg" src="https://www.justcoglobal.com/wp-content/uploads/2022/06/meeting-rooms.jpg" alt="Meeting Room" />
-                        <div className="popularRoomInfo">
-                            <h4>Meeting Room</h4>
-                            <p>BenDover123</p>
-                            <p>311 New Upper Changi Rd, Singapore 467360</p>
-                        </div>
-                    </li>
-                    <li className="popularItem">
-                        <img className="roomImg" src="https://www.justcoglobal.com/wp-content/uploads/2022/06/meeting-rooms.jpg" alt="Meeting Room" />
-                        <div className="popularRoomInfo">
-                            <h4>Meeting Room</h4>
-                            <p>BenDover123</p>
-                            <p>311 New Upper Changi Rd, Singapore 467360</p>
-                        </div>
-                    </li>
-                    <li className="popularItem">
-                        <img className="roomImg" src="https://www.justcoglobal.com/wp-content/uploads/2022/06/meeting-rooms.jpg" alt="Meeting Room" />
-                        <div className="popularRoomInfo">
-                            <h4>Meeting Room</h4>
-                            <p>BenDover123</p>
-                            <p>311 New Upper Changi Rd, Singapore 467360</p>
-                        </div>
-                    </li>
-                </ul>
+                <ul className="popularList">{ facilities }</ul>
             </section>
         </>
     )

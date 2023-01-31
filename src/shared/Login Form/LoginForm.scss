@@ -335,6 +335,13 @@ h6 span {
       .btn {
         padding: 0 30px !important;
       }
+
+      .errMsg {
+        color: red;
+        text-align: start;
+        width: max-content;
+        margin-left: 18px !important;
+      }
     }
   }
 }

@@ -1,24 +1,25 @@
 import './App.css';
+
 import Layout from "./shared/Layout/Layout"
 import Navbar from "./shared/Navbar/Navbar"
-import LoginForm from "./shared/LoginForm/LoginForm"
+
+import { useState } from "react"
 import $ from "jquery"
 
-import { useState } from 'react'
-
 function App() {
-
+  const [ token, setToken ] = useState(localStorage.getItem("userToken"))
   const [ modalType, setModalType ] = useState(null)
 
   function setType(type) {
-    setModalType(type)
     if (type !== null) {
-      $('#modal-container').removeAttr('class').addClass("four");
+      setModalType(type)
+      $('#modal').removeAttr('class').addClass("show");
       $('body').addClass('modal-active');
     }
     else {
-      $("#modal-container").addClass('out');
+      $("#modal").removeAttr('class');
       setTimeout(() => {
+        setModalType(type)
         $('body').removeClass('modal-active');
       }, 500);
     }
@@ -26,16 +27,9 @@ function App() {
 
   return (
     <>
-      <div id="modal-container">
-        <div className="modal-background">
-          {
-            modalType === "login" && <LoginForm setType={setType} />
-          }
-        </div>
-      </div>
       <div className="page">
-        <Navbar setType={setType} />
-        <Layout />
+        <Navbar setType={setType} token={token} setToken={setToken} />
+        <Layout setType={setType} modalType={modalType} setToken={setToken} />
       </div>
     </>
   );

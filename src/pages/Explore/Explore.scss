@@ -1,0 +1,135 @@
+$lightblue: #ADB9D8;
+
+// filter section
+.filters {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 2.5vh !important;
+
+    .input-divs {
+        margin: 1vh auto !important;
+        width: 70%;
+        padding: 1vh 1vw !important;
+        position: relative;
+        background: #35415E;
+
+        .fa-magnifying-glass, .fa-location-dot {
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 2rem;
+            transform: translateY(-50%)
+        }
+
+        input {
+            width: 100%;
+            background: none;
+            padding-left: 3rem !important;
+            color: white;
+            border: none;
+            outline: none;
+        }
+    }
+}
+
+// facility list section
+ul.resultList {
+    color: white;
+    list-style: none;
+    position: relative;
+    margin-top: 2.5vh !important;
+
+    li.facility {
+        width: 100%;
+        display: flex;
+        background: #35415E;
+
+        &:not(:last-of-type) {
+            margin-bottom: 2.5vh !important;
+        }
+
+        *:not(.card-background) {
+            z-index: 2;
+        }
+
+        .facility-img-container {
+            width: 5rem;
+            height: 5rem;
+            margin: auto !important;
+            display: flex;
+
+            .facility-img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 50%;
+                margin: auto !important;
+            }
+        }
+
+        .facility-info {
+            width: 50%;
+            height: 110px;
+            overflow: hidden;
+
+            .info-background {
+                background: #ADB9D8;
+                opacity: 11%;
+                position: absolute;
+                width: 50%;
+                height: 110px;
+            }
+
+            .facility-name {
+                margin-top: .5rem !important;
+            }
+
+            *:not(.info-background) {
+                margin-left: .5rem !important;
+                position: relative;
+            }
+        }
+
+        .facility-controls {
+            width: 28%;
+            display: flex;
+
+            .btn-column {
+                display: flex;
+                flex-direction: column;
+                margin: 0 auto !important;
+
+                .button-containers, .favourites-btn-container {
+                    margin: auto !important;
+                    width: max-content;
+                    height: max-content;
+    
+                    &:has(.view-details) {
+                        margin-bottom: 0 !important;
+                    }
+    
+                    button {
+                        outline: none;
+                        border: none;
+                        background: none;
+
+                        i {
+                            color: $lightblue;
+                        }
+                    }
+    
+                    .view-details {
+                        color: #ADB9D8;
+                    }
+    
+                    .booking-form {
+                        color: white;
+                        padding: .5rem 2.5rem !important;
+                        background: #EC4E6E;
+                    }
+                }
+            }
+        }
+    }
+}

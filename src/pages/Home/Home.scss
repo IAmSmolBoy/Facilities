@@ -4,6 +4,11 @@ $darkblue: #35415E;
 
 .tableSec {
     width: 50vw;
+    h4 {
+        color: $lightblue;
+        text-align: center;
+        margin-top: 2vh !important;
+    }
 
     table {
         margin-top: 1vh  !important;
@@ -14,7 +19,10 @@ $darkblue: #35415E;
         th {
             color: $lightblue;
             text-align: left;
-            padding-left: 1vw !important;
+            
+            &:first-of-type {
+                padding-left: 1vw !important;
+            }
         }
     
         tbody {
@@ -23,6 +31,18 @@ $darkblue: #35415E;
             td {
                 color: white;
                 padding: 1vh 1vw !important;
+
+                &:has(.control-btn) {
+                    display: flex;
+                }
+
+                .control-btn {
+                    background: none;
+                    outline: none;
+                    border: none;
+                    color: white;
+                    margin: auto !important;
+                }
             }
         }
     }
