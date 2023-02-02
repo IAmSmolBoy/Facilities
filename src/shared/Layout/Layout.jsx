@@ -11,6 +11,7 @@ import { Route, Routes } from "react-router-dom"
 import { useState } from "react"
 
 import "./Layout.scss"
+import { useEffect } from "react"
 
 export default function Layout({setType, modalType, setToken}) {
   
@@ -20,6 +21,14 @@ export default function Layout({setType, modalType, setToken}) {
     const [ bookingFormName, setBookingFormName ] = useState("")
     const [ booking, setBooking ] = useState({})
     const [ facilityDetails, setFacilityDetails ] = useState({})
+
+    if (!modalType) {
+        if (bookingList.length > 0) setBookingList([])
+        if (facilityList.length > 0) setFacilityList([])
+        if (bookingFormName !== "") setBookingFormName("")
+        if (JSON.stringify(booking) !== "{}") setBooking({})
+        if (JSON.stringify(facilityDetails) !== "{}") setFacilityDetails({})
+    }
 
     return (
         <>

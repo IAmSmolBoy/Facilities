@@ -91,44 +91,43 @@ ul.resultList {
             }
         }
 
-        .facility-controls {
-            width: 28%;
+        .btn-column {
             display: flex;
+            flex-direction: column;
+            margin: 0 auto !important;
 
-            .btn-column {
-                display: flex;
-                flex-direction: column;
-                margin: 0 auto !important;
+            .button-containers, .icon-btn-container {
+                margin: auto !important;
+                width: max-content;
+                height: max-content;
 
-                .button-containers, .favourites-btn-container {
-                    margin: auto !important;
-                    width: max-content;
-                    height: max-content;
-    
-                    &:has(.view-details) {
-                        margin-bottom: 0 !important;
-                    }
-    
-                    button {
-                        outline: none;
-                        border: none;
-                        background: none;
+                &:has(.view-details) {
+                    margin-bottom: 0 !important;
+                }
 
-                        i {
-                            color: $lightblue;
-                        }
-                    }
-    
-                    .view-details {
-                        color: #ADB9D8;
-                    }
-    
-                    .booking-form {
-                        color: white;
-                        padding: .5rem 2.5rem !important;
-                        background: #EC4E6E;
+                button {
+                    outline: none;
+                    border: none;
+                    background: none;
+
+                    i {
+                        color: $lightblue;
                     }
                 }
+
+                .view-details {
+                    color: #ADB9D8;
+                }
+
+                .booking-form {
+                    color: white;
+                    padding: .5rem 2rem !important;
+                    background: #EC4E6E;
+                }
+            }
+
+            &:last-of-type .icon-btn-container  {
+                margin-top: 1vh !important;
             }
         }
     }
