@@ -8,27 +8,25 @@ import BookingForm from '../../shared/Booking Form/BookingForm'
 import UpdateFacility from '../../shared/Update Facility/UpdateFacility'
 
 import { Route, Routes } from "react-router-dom"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import "./Layout.scss"
-import { useEffect } from "react"
 
-export default function Layout({setType, modalType, setToken}) {
-  
-    const [ bookingList, setBookingList ] = useState([])
-    const [ facilityList, setFacilityList ] = useState([])
-  
-    const [ bookingFormName, setBookingFormName ] = useState("")
-    const [ booking, setBooking ] = useState({})
-    const [ facilityDetails, setFacilityDetails ] = useState({})
+export default function Layout({ setType, modalType, setToken }) {
 
-    if (!modalType) {
-        if (bookingList.length > 0) setBookingList([])
-        if (facilityList.length > 0) setFacilityList([])
-        if (bookingFormName !== "") setBookingFormName("")
-        if (JSON.stringify(booking) !== "{}") setBooking({})
-        if (JSON.stringify(facilityDetails) !== "{}") setFacilityDetails({})
-    }
+    const [bookingList, setBookingList] = useState([])
+    const [facilityList, setFacilityList] = useState([])
+
+    const [bookingReadOnly, setBookingReadOnly] = useState(false)
+    const [booking, setBooking] = useState()
+    const [facilityDetails, setFacilityDetails] = useState({})
+
+    useEffect(() => {
+        if (modalType == null) {
+            setBooking(null)
+            setBookingReadOnly(false)
+        }
+    })
 
     return (
         <>
@@ -36,21 +34,21 @@ export default function Layout({setType, modalType, setToken}) {
                 <div className="modal-wrap">
                     {
                         ["login", "signUp"].includes(modalType) ?
-                        <LoginForm setType={setType}
-                        signUp={modalType === "signUp"}
-                        setToken={setToken} /> :
+                            <LoginForm setType={setType}
+                                signUp={modalType === "signUp"}
+                                setToken={setToken} /> :
 
-                        modalType === "BookNow" ?
-                        <BookingForm setType={setType}
-                        bookingList={bookingList}
-                        setBookingList={setBookingList}
-                        name={bookingFormName}
-                        booking={booking} /> :
-                        
-                        modalType === "UpdateFacility" ?
-                        <UpdateFacility setType={setType}
-                        facility={facilityDetails}
-                        setFacilityList={setFacilityList} /> : <></>
+                            modalType === "BookNow" ?
+                                <BookingForm setType={setType}
+                                    bookingList={bookingList}
+                                    setBookingList={setBookingList}
+                                    booking={booking}
+                                    bookingReadOnly={bookingReadOnly} /> :
+
+                                modalType === "UpdateFacility" ?
+                                    <UpdateFacility setType={setType}
+                                        facility={facilityDetails}
+                                        setFacilityList={setFacilityList} /> : <></>
                     }
                 </div>
             </div>
@@ -61,11 +59,12 @@ export default function Layout({setType, modalType, setToken}) {
                             setType={setType}
                             setBooking={setBooking}
                             bookingList={bookingList}
+                            setBookingReadOnly={setBookingReadOnly}
                             setBookingList={setBookingList} />} />
                         <Route path="/explore" element={<Explore
                             setType={setType}
-                            setBookingFormName={setBookingFormName}
                             setFacilityDetails={setFacilityDetails}
+                            setBooking={setBooking}
                             facilityList={facilityList}
                             setFacilityList={setFacilityList} />} />
                         <Route path="/user" element={<User setToken={setToken} />} />

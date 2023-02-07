@@ -90,7 +90,9 @@ export default class Explore extends Component {
     }
 
     bookFacility(facility) {
-        this.props.setBookingFormName(facility.name)
+        this.props.setBooking({
+            facility: facility.name
+        })
         this.props.setType("BookNow")
     }
 

@@ -16,12 +16,14 @@ export default class BookingForm extends Component {
 
 		var data = { booker: username }
 
-		if (this.props.name) {
-			data.facility = this.props.name
-		}
 		if (this.props.booking) {
-			data = this.props.booking
+			data = {
+				...data,
+				...this.props.booking
+			}
 		}
+
+		console.log(this.props.readOnly)
 		
 		this.state = {
 			data,
@@ -53,19 +55,19 @@ export default class BookingForm extends Component {
 	onSubmit(e) {
         e.preventDefault()
 
-		const uri = process.env.REACT_APP_URL + "/bookings",
-			config = {
-				headers: {
-					authtoken: localStorage.getItem("userToken")
-				}
+		const uri = process.env.REACT_APP_URL + "/bookings"
+		const config = {
+			headers: {
+				authtoken: localStorage.getItem("userToken")
 			}
-
-		if (this.props.booking) {
+		}
+			
+		if (this.props.booking.startDate) {
 			axios.put(uri, this.state.data, config)
 				.then((res) => {
 					if (res.data && res.data.facility) {
 						var bookings = this.props.bookingList
-
+						
 						for (const [i, booking] of bookings.entries()) {
 							if (booking.facility === this.props.booking.facility) {
 								bookings[i] = this.state.data
@@ -76,12 +78,12 @@ export default class BookingForm extends Component {
 						this.props.setType(null)
 					}
 					else {
-						this.setState({ err: res.data })
 						console.log(res.data)
+						this.setState({ err: res.data })
 					}
 				}, e => {
-					this.setState({ err: e.message })
 					console.log(e)
+					this.setState({ err: e.message })
 				})
 		}
 		else {
@@ -92,12 +94,12 @@ export default class BookingForm extends Component {
 						this.props.setType(null)
 					}
 					else {
-						this.setState({ err: res.data })
 						console.log(res.data)
+						this.setState({ err: res.data })
 					}
 				}, e => {
-					this.setState({ err: e.message })
 					console.log(e)
+					this.setState({ err: e.message })
 				})
 		}
 	}
@@ -116,7 +118,7 @@ export default class BookingForm extends Component {
 						<div className="form-row">
 							<div className="form-wrapper">
 								<label>Facility Name *</label>
-								<input name="facility" type="text" className="form-control" placeholder="The Facility Name" readOnly={this.props.booking} required />
+								<input name="facility" type="text" className="form-control" placeholder="The Facility Name" readOnly={this.props.bookingReadOnly} required />
 							</div>
 							<div className="form-wrapper">
 								<label>Phone No. </label>

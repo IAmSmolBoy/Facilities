@@ -168,10 +168,10 @@ export default class User extends Component {
                 <h1 className="title">Profile Page</h1>
                 <form onChange={this.onChange.bind(this)} onSubmit={this.onSubmit.bind(this)}>
                     <section className="facility-img-sec">
-                    <label htmlFor="pfp" id="previewImgLabel">
-                        <img src={this.state.src ? this.state.src : "https://cdn-icons-png.flaticon.com/512/6522/6522516.png"} alt="pfp" />
-                    </label>
-                    <input type="file" name="pfp" id="pfp" accept="image/*" required />
+                        <label htmlFor="pfp" id="previewImgLabel">
+                            <img src={this.state.src ? this.state.src : "https://cdn-icons-png.flaticon.com/512/6522/6522516.png"} alt="pfp" />
+                        </label>
+                        <input type="file" name="pfp" id="pfp" accept="image/*" required />
                     </section>
                     <section className="form-sec">
                         <div className="profile-page">

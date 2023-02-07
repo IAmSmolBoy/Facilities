@@ -5,7 +5,7 @@ import { useState } from "react";
 import axios from "axios"
 import { useEffect } from "react";
 
-export default function Home({ setType, setBooking, bookingList, setBookingList }) {
+export default function Home({ setType, setBooking, bookingList, setBookingList, setBookingReadOnly }) {
 
     const [ facilities, setFacilities ] = useState([])
 
@@ -36,6 +36,7 @@ export default function Home({ setType, setBooking, bookingList, setBookingList 
 
     function editBooking(booking) {
         setBooking(booking)
+        setBookingReadOnly(true)
         setType("BookNow")
     }
 
