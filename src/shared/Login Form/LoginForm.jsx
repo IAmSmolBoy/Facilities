@@ -65,7 +65,6 @@ export default function LoginForm({ setType, signUp, setUser }) {
                                     </div>
                                     <h6 className="errMsg">{loginErr}</h6>
                                     <input type="submit" className="btn mt-4" />
-                                    <p className="mb-0 mt-4 text-center"><a href="#0" className="link">Forgot your password?</a></p>
                                 </div>
                             </div>
                         </form>
