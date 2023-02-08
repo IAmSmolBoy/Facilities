@@ -5,15 +5,12 @@ import { useState } from "react";
 import axios from "axios"
 import { useEffect } from "react";
 
-export default function Home({ setType, setBooking, bookingList, setBookingList, setBookingReadOnly }) {
+export default function Home({ setType, setBooking, bookingList, setBookingList, setBookingReadOnly, user }) {
 
     const [ facilities, setFacilities ] = useState([])
 
     useEffect(() => {
-        if (localStorage.getItem("userToken")) {
-            // Decode the jwt token if user is logged in
-            const user = decodeToken(localStorage.getItem("userToken"))
-    
+        if (user) {
             axios.get(`${process.env.REACT_APP_URL}/bookings/${user.username}`, {
                 headers: { authtoken: localStorage.getItem("userToken") }
             }).then((res) => {
@@ -43,19 +40,20 @@ export default function Home({ setType, setBooking, bookingList, setBookingList,
     function deleteBooking(deletedBooking) {
         var tempBookings = bookingList
         const bookingIndex = tempBookings.findIndex(booking => booking.facility === deletedBooking.facility)
-        tempBookings = tempBookings.splice(bookingIndex, 1)
+        tempBookings.splice(bookingIndex, 1)
+        console.log(bookingList)
         setBookingList(tempBookings)
 
-        const facility = deletedBooking.facility.split(" ").join("+"),
-            booker = deletedBooking.booker.split(" ").join("+")
+        // const facility = deletedBooking.facility.split(" ").join("+"),
+        //     booker = deletedBooking.booker.split(" ").join("+")
             
-        axios.delete(`${process.env.REACT_APP_URL}/bookings/${facility}/${booker}`, {
-            headers: { authtoken: localStorage.getItem("userToken")  }
-        }).then(res => {
-            console.log(res.data)
-        }).catch(err => {
-            console.log(err)
-        })
+        // axios.delete(`${process.env.REACT_APP_URL}/bookings/${facility}/${booker}`, {
+        //     headers: { authtoken: localStorage.getItem("userToken")  }
+        // }).then(res => {
+        //     console.log(res.data)
+        // }).catch(err => {
+        //     console.log(err)
+        // })
     }
 
     // booking row template

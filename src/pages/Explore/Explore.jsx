@@ -1,7 +1,6 @@
 import "./Explore.scss"
 
 import { Component } from "react"
-import { decodeToken } from "react-jwt"
 import $ from "jquery"
 import axios from "axios"
 
@@ -9,19 +8,15 @@ export default class Explore extends Component {
 
     constructor(props) {
         super(props)
-
-        const user = localStorage.getItem("userToken") ?
-            decodeToken(localStorage.getItem("userToken")) :
-            null
+        const user = this.props.user
         this.state = {
             allFacilities: [],
             filters: { name: "", location: "" },
-            user: user,
             favourites: user && user.favourites ? user.favourites : [],
         }
     }
 
-    facilityListElement(facility, favourited, showControls) {
+    facilityListElement(facility, favourited, showControls, showFav) {
         return (
             <li className="facility" key={facility.name}>
                 <div className="card-background"></div>
@@ -53,17 +48,20 @@ export default class Explore extends Component {
                         </div>
                     </div>
                 }
-                <div className="btn-column">
-                    <div className="icon-btn-container">
-                        <button onClick={(e) => this.favouriteFacility(facility.name, favourited)}>
-                            {
-                                favourited ?
-                                    <i className="fa-solid fa-heart"></i> :
-                                    <i className="fa-regular fa-heart"></i>
-                            }
-                        </button>
+                {
+                    showFav &&
+                    <div className="btn-column">
+                        <div className="icon-btn-container">
+                            <button onClick={(e) => this.favouriteFacility(facility.name, favourited)}>
+                                {
+                                    favourited ?
+                                        <i className="fa-solid fa-heart"></i> :
+                                        <i className="fa-regular fa-heart"></i>
+                                }
+                            </button>
+                        </div>
                     </div>
-                </div>
+                }
             </li>
         )
     }
@@ -71,6 +69,11 @@ export default class Explore extends Component {
     updateFacility(facility) {
         this.props.setFacilityDetails(facility)
         this.props.setType("UpdateFacility")
+    }
+
+    viewFacility(facility) {
+        this.props.setFacilityDetails(facility)
+        this.props.setType("ViewDetails")
     }
 
     deleteFacility(deletedFacility) {
@@ -99,7 +102,7 @@ export default class Explore extends Component {
     // Filter facilities by search and location filter values
     filterFacilities(facility, filters) {
         for (const filter in filters) {
-            if (filters[filter] !== "" && !facility[filter].includes(filters[filter])) {
+            if (filters[filter] !== "" && !facility[filter].toLowerCase().includes(filters[filter].toLowerCase())) {
                 return false
             }
         }
@@ -117,14 +120,13 @@ export default class Explore extends Component {
     }
 
     favouriteFacility(facility) {
-        if (this.state.user) {
-            var favourites = this.state.favourites ? this.state.favourites : []
+        if (this.state) {
+            var favourites = this.state.favourites
             var favouritesModifier = ""
 
             if (favourites.includes(facility)) {
                 favourites.splice(favourites.indexOf(facility), 1)
                 favouritesModifier = "delete"
-
             }
             else {
                 favourites.push(facility)
@@ -133,10 +135,11 @@ export default class Explore extends Component {
             }
 
             this.setState({ favourites })
-            this.addFilter({ favourites })
+
+            console.log([facility])
 
             const favBody = {
-                username: this.state.user.username,
+                username: this.props.user.username,
                 favourites: [facility]
             }
             const favConfig = {
@@ -193,7 +196,8 @@ export default class Explore extends Component {
                                     (facility) => this.facilityListElement(
                                         facility,
                                         this.state.favourites.includes(facility.name),
-                                        this.state.user && ["admin", "owner"].includes(this.state.user.role)
+                                        this.props.user && ["admin", "owner"].includes(this.props.user.role),
+                                        this.props.user
                                     )
                                 )
                         }

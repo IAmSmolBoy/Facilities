@@ -1,9 +1,10 @@
 import "./LoginForm.scss"
 
 import { useState } from 'react'
+import { decodeToken } from "react-jwt"
 import axios from "axios"
 
-export default function LoginForm({ setType, signUp, setToken }) {
+export default function LoginForm({ setType, signUp, setUser }) {
 
     const [ data, setData ] = useState({ role: "member" })
     const [ formType, setFormType ] = useState(signUp)
@@ -21,7 +22,9 @@ export default function LoginForm({ setType, signUp, setToken }) {
         axios.post(`${process.env.REACT_APP_URL}/${e.target.name === "login" ? "login" : "users"}`, data)
             .then((res) => {
                 if (res.data.token) {
-                    setToken(res.data.token)
+                    const newUser = decodeToken(res.data.token)
+                    delete newUser.iat
+                    setUser(newUser)
                     localStorage.setItem("userToken", res.data.token)
                     setType(null)
                 }

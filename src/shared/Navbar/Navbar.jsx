@@ -1,19 +1,18 @@
 import "./Navbar.scss"
 
-import { NavLink } from 'react-router-dom';
-import { decodeToken } from "react-jwt";
+import { NavLink, useLocation, useNavigate  } from 'react-router-dom';
 
-export default function Navbar({ setType, token, setToken }) {
+export default function Navbar({ setType, user, setUser }) {
 
-    var user
+    const navigate = useNavigate();
+    const location = useLocation()
 
     function signOut(e) {
         localStorage.clear()
-        setToken(null)
-    }
-
-    if (token) {
-        user = decodeToken(token)
+        setUser(null)
+        if (location === "user") {
+            navigate("/")
+        }
     }
 
     return (
@@ -36,7 +35,7 @@ export default function Navbar({ setType, token, setToken }) {
                         }
                     </li>
                     {
-                        token ?
+                        user ?
                             <>
                                 <li className="navItem left-auto">
                                     <button className="button" onClick={(e) => setType("BookNow")}>Book Now</button>

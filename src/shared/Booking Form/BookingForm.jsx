@@ -1,7 +1,6 @@
 import "./BookingForm.scss"
 
 import { Component } from "react";
-import { decodeToken } from "react-jwt";
 import $ from "jquery"
 import axios from "axios"
 
@@ -10,11 +9,7 @@ export default class BookingForm extends Component {
 	constructor(props) {
 		super(props)
 
-		const token = localStorage.getItem("userToken")
-		var username
-		if (token) username = decodeToken(token).username
-
-		var data = { booker: username }
+		var data = { booker: this.props.user.username }
 
 		if (this.props.booking) {
 			data = {
@@ -23,7 +18,7 @@ export default class BookingForm extends Component {
 			}
 		}
 
-		console.log(this.props.readOnly)
+		console.log(data)
 		
 		this.state = {
 			data,

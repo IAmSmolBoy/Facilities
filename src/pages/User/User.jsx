@@ -10,11 +10,13 @@ export default class User extends Component {
 
     constructor(props) {
         super(props)
-        const token = localStorage.getItem("userToken")
-        var username
-        if (token) username = decodeToken(token).username
+        var data
+        if (this.props.user) {
+            data = { owner: this.props.user.username }
+        }
+
         this.state = {
-            data: { owner: username },
+            data,
             err: null,
             redirect: null,
             visibility: false
@@ -33,12 +35,11 @@ export default class User extends Component {
     }
 
     deleteUser() {
-        console.log(this.state.data.username)
         const formattedUsername = this.state.data.username.split(" ").join("+")
+        this.props.setUser(null)
         axios.delete(process.env.REACT_APP_URL + "/users/" + formattedUsername, {
             headers: { authtoken: localStorage.getItem("userToken") }
         }).then(res => {
-            console.log(res)
             this.setState({ redirect: <Navigate to="/" replace={true} /> })
             localStorage.clear()
         }).catch(err => console.log(err))
@@ -85,8 +86,10 @@ export default class User extends Component {
         }).then((res) => {
             console.log(res)
             if (!res.data.message && res.data.token) {
+                const newUser = decodeToken(res.data.token)
+                delete newUser.iat
+                this.props.setUser(newUser)
                 localStorage.setItem("userToken", res.data.token)
-                this.props.setToken(res.data.token)
                 alert("user saved")
             }
             else {
@@ -100,21 +103,20 @@ export default class User extends Component {
     }
 
     componentDidMount() {
-        const user = decodeToken(localStorage.getItem("userToken"))
-        delete user.iat
-        console.log(user)
-
-        if (user.img) {
-            this.setState({
-                src: user.img
-            })
-        }
-
-        for (const userAttr in user) {
-            $(`input[name="${userAttr}"]`).val(user[userAttr])
-            this.setState({
-                data: user
-            })
+        const user = this.props.user
+        if (user) {
+            if (user.img) {
+                this.setState({
+                    src: user.img
+                })
+            }
+    
+            for (const userAttr in user) {
+                $(`input[name="${userAttr}"]`).val(user[userAttr])
+                this.setState({
+                    data: user
+                })
+            }
         }
 
         // jquery selection animation
@@ -171,7 +173,7 @@ export default class User extends Component {
                         <label htmlFor="pfp" id="previewImgLabel">
                             <img src={this.state.src ? this.state.src : "https://cdn-icons-png.flaticon.com/512/6522/6522516.png"} alt="pfp" />
                         </label>
-                        <input type="file" name="pfp" id="pfp" accept="image/*" required />
+                        <input type="file" name="pfp" id="pfp" accept="image/*" />
                     </section>
                     <section className="form-sec">
                         <div className="profile-page">

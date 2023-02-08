@@ -4,10 +4,17 @@ import Layout from "./shared/Layout/Layout"
 import Navbar from "./shared/Navbar/Navbar"
 
 import { useState } from "react"
+import { decodeToken } from "react-jwt"
 import $ from "jquery"
 
 function App() {
-  const [ token, setToken ] = useState(localStorage.getItem("userToken"))
+  var decoded
+  if (localStorage.getItem("userToken")) {
+    decoded = decodeToken(localStorage.getItem("userToken"))
+    delete decoded.iat
+  }
+
+  const [ user, setUser ] = useState(decoded)
   const [ modalType, setModalType ] = useState(null)
 
   function setType(type) {
@@ -28,8 +35,8 @@ function App() {
   return (
     <>
       <div className="page">
-        <Navbar setType={setType} token={token} setToken={setToken} />
-        <Layout setType={setType} modalType={modalType} setToken={setToken} />
+        <Navbar setType={setType} user={user} setUser={setUser} />
+        <Layout setType={setType} user={user} modalType={modalType} setUser={setUser} />
       </div>
     </>
   );

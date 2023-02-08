@@ -1,0 +1,55 @@
+$lightblue: #ADB9D8;
+$red: #EC4E6E;
+$darkblue: #35415E;
+
+.view-details-modal-container {
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .view-details-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: $lightblue;
+    color: $darkblue;
+    text-align: center;
+    border-radius: 20px;
+    padding: 30px 30px 70px !important;
+  
+    button.close {
+      width: 30px;
+      font-size: 20px;
+      color: $red;
+      align-self: flex-end;
+      background-color: transparent;
+      border: none;
+      margin-bottom: 10px;
+    }
+  
+    img {
+      margin: 15px 0 !important;
+      max-width: 30vw;
+      cursor: pointer;
+      transition: transform .3s;
+
+      &.enlarge {
+        transform: scale(2);
+      }
+    }
+  
+    .facility-info-list {
+
+      h4 {
+        text-align: left;
+        margin-top: 1rem !important;
+      }
+
+      h2, h4 {
+        max-width: 30vw;
+      }
+    }
+  }
+}
