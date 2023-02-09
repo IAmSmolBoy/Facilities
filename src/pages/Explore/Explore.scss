@@ -123,6 +123,10 @@ ul.resultList {
                     color: white;
                     padding: .5rem 2rem !important;
                     background: #EC4E6E;
+
+                    &:disabled {
+                        opacity: .75;
+                    }
                 }
             }
 

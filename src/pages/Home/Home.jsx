@@ -11,7 +11,7 @@ export default function Home({ setType, setBooking, bookingList, setBookingList,
 
     useEffect(() => {
         if (user) {
-            axios.get(`${process.env.REACT_APP_URL}/bookings/${user.username}`, {
+            axios.get(`${process.env.REACT_APP_URL}/bookings/${user.username.replaceAll(" ", "+")}`, {
                 headers: { authtoken: localStorage.getItem("userToken") }
             }).then((res) => {
                 setBookingList(res.data)
@@ -20,8 +20,9 @@ export default function Home({ setType, setBooking, bookingList, setBookingList,
             axios.get(`${process.env.REACT_APP_URL}/facilities`)
                 .then(res => {
                     if (res.data && res.data.length > 0) {
+                        console.log(res.data)
                         const favouritedFacilities = res.data
-                            .filter(facility => user.favourites.includes(facility.name))
+                            .filter(facility => user.favourites && user.favourites.includes(facility.name))
                             .map(favouritedFacility)
                         setFacilities(favouritedFacilities)
                     }
@@ -44,16 +45,16 @@ export default function Home({ setType, setBooking, bookingList, setBookingList,
         console.log(bookingList)
         setBookingList(tempBookings)
 
-        // const facility = deletedBooking.facility.split(" ").join("+"),
-        //     booker = deletedBooking.booker.split(" ").join("+")
+        const facility = deletedBooking.facility.split(" ").join("+"),
+            booker = deletedBooking.booker.split(" ").join("+")
             
-        // axios.delete(`${process.env.REACT_APP_URL}/bookings/${facility}/${booker}`, {
-        //     headers: { authtoken: localStorage.getItem("userToken")  }
-        // }).then(res => {
-        //     console.log(res.data)
-        // }).catch(err => {
-        //     console.log(err)
-        // })
+        axios.delete(`${process.env.REACT_APP_URL}/bookings/${facility}/${booker}`, {
+            headers: { authtoken: localStorage.getItem("userToken")  }
+        }).then(res => {
+            console.log(res.data)
+        }).catch(err => {
+            console.log(err)
+        })
     }
 
     // booking row template

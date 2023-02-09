@@ -31,7 +31,7 @@ export default class Explore extends Component {
                 </div>
                 <div className="btn-column">
                     <div className="button-containers"><button className="view-details" onClick={(e) => this.viewFacility(facility)}>View Details</button></div>
-                    <div className="button-containers"><button className="booking-form" onClick={(e) => this.bookFacility(facility)}>Book</button></div>
+                    <div className="button-containers"><button className="booking-form" onClick={(e) => this.bookFacility(facility)} disabled={!this.props.user}>Book</button></div>
                 </div>
                 {
                     showControls &&

@@ -8,7 +8,7 @@ export default class BookingForm extends Component {
 
 	constructor(props) {
 		super(props)
-
+		
 		var data = { booker: this.props.user.username }
 
 		if (this.props.booking) {
@@ -30,8 +30,7 @@ export default class BookingForm extends Component {
 		const today = new Date()
 		today.setDate(today.getDate() + 1)
 		$(".datepicker-here").prop("min", today.toISOString().split('T')[0])
-		if (this.props.name) $(`input[name="facility"]`).val(this.props.name)
-		else if (this.props.booking) {
+		if (this.props.booking) {
 			for (const attr in this.props.booking) {
 				$(`input[name="${attr}"`).val(this.props.booking[attr])
 			}
